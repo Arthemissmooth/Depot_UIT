@@ -1,13 +1,82 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+package fr.iut.robotmineur;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
+public class Main {
+
+    public static void main(String[] args) {
+
+        Monde monde = new Monde();
+
+        monde.ajouterEau(new Position(0, 1));
+        monde.ajouterEau(new Position(2, 5));
+        monde.ajouterEau(new Position(3, 3));
+        monde.ajouterEau(new Position(6, 6));
+        monde.ajouterEau(new Position(8, 3));
+
+        Mine mineOr =
+                new Mine(
+                        1,
+                        new Position(2, 2),
+                        TypeMinerai.OR,
+                        80,
+                        80
+                );
+
+        Mine mineNickel =
+                new Mine(
+                        2,
+                        new Position(6, 5),
+                        TypeMinerai.NICKEL,
+                        70,
+                        70
+                );
+
+        Entrepot entrepotOr =
+                new Entrepot(
+                        1,
+                        new Position(0, 0),
+                        TypeMinerai.OR
+                );
+
+        Entrepot entrepotNickel =
+                new Entrepot(
+                        2,
+                        new Position(9, 9),
+                        TypeMinerai.NICKEL
+                );
+
+        Robot robotOr =
+                new RobotOr(
+                        1,
+                        new Position(1, 1),
+                        5,
+                        2
+                );
+
+        Robot robotNickel =
+                new RobotNickel(
+                        2,
+                        new Position(4, 4),
+                        6,
+                        3
+                );
+
+        monde.ajouterMine(mineOr);
+        monde.ajouterMine(mineNickel);
+
+        monde.ajouterEntrepot(entrepotOr);
+        monde.ajouterEntrepot(entrepotNickel);
+
+        monde.ajouterRobot(robotOr);
+        monde.ajouterRobot(robotNickel);
+
+        AffichageConsole affichage =
+                new AffichageConsole();
+
+        for (int i = 0; i < 10; i++) {
+
+            affichage.afficherMonde(monde);
+
+            monde.tourSuivant();
+        }
     }
 }

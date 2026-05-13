@@ -33,7 +33,7 @@ public class Monde {
     public Secteur getSecteur(Position position) {
         return secteurs[position.getLigne()][position.getColonne()];
     }
-
+/* la classe a été créé par Hadj*/
     public boolean positionValide(Position position) {
         return position.getLigne() >= 0
                 && position.getLigne() < 10

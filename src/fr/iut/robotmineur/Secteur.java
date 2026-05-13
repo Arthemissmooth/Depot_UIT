@@ -74,6 +74,8 @@ public class Secteur {
         this.robot = robot;
     }
 
+    public void retirerRobot() {
+    }
 }
 
 

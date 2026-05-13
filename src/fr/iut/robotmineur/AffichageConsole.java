@@ -7,7 +7,7 @@ public class AffichageConsole {
         System.out.println("Tour " + monde.getTourActuel());
         System.out.println();
 
-        // Numéros colonnes
+
         System.out.print("     ");
 
         for (int colonne = 0; colonne < 10; colonne++) {

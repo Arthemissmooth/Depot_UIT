@@ -47,8 +47,13 @@ public class Main {
         }
 
 
-        System.out.println("Combien de cases d'eau ?");
-        int nbEau = Integer.parseInt(scanner.nextLine());
+        int nbEau;
+
+        do {
+            System.out.println("Combien de cases d'eau ? (max 10)");
+            nbEau = Integer.parseInt(scanner.nextLine());
+        } while (nbEau < 0 || nbEau > 10);
+
 
         for (int i = 1; i <= nbEau; i++) {
 

@@ -74,7 +74,10 @@ public class Main {
 
         for (int i = 0; i < 10; i++) {
 
-            affichage.afficherMonde(monde);
+            JeuConsole jeu = new JeuConsole(monde);
+            jeu.lancer();
+
+
 
             monde.tourSuivant();
         }

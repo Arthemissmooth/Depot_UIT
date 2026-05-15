@@ -1,5 +1,6 @@
 package fr.iut.robotmineur;
 
+import javax.swing.SwingUtilities;
 import java.util.Scanner;
 
 public class Main {
@@ -11,7 +12,9 @@ public class Main {
 
         System.out.println("Bienvenue dans la simulation de robots mineurs");
 
-
+        // -----------------------------
+        // MINES
+        // -----------------------------
         System.out.println("Combien de mines ? (2 à 4)");
         int nbMines = Integer.parseInt(scanner.nextLine());
 
@@ -46,14 +49,15 @@ public class Main {
             monde.ajouterMine(mine);
         }
 
-
+        // -----------------------------
+        // EAU
+        // -----------------------------
         int nbEau;
 
         do {
             System.out.println("Combien de cases d'eau ? (max 10)");
             nbEau = Integer.parseInt(scanner.nextLine());
         } while (nbEau < 0 || nbEau > 10);
-
 
         for (int i = 1; i <= nbEau; i++) {
 
@@ -65,7 +69,9 @@ public class Main {
             monde.ajouterEau(new Position(ligne, colonne));
         }
 
-
+        // -----------------------------
+        // ENTREPOTS
+        // -----------------------------
         Entrepot entrepotOr = new Entrepot(
                 1,
                 new Position(0, 0),
@@ -81,7 +87,9 @@ public class Main {
         monde.ajouterEntrepot(entrepotOr);
         monde.ajouterEntrepot(entrepotNickel);
 
-
+        // -----------------------------
+        // ROBOTS
+        // -----------------------------
         System.out.println("Combien de robots ? (1 à 5)");
         int nbRobots = Integer.parseInt(scanner.nextLine());
 
@@ -125,8 +133,23 @@ public class Main {
             monde.ajouterRobot(robot);
         }
 
+        // -----------------------------
+        // CHOIX DU MODE
+        // -----------------------------
+        int choix;
 
-        JeuConsole jeu = new JeuConsole(monde);
-        jeu.lancer();
+        do {
+            System.out.println("Mode ? 1 = Console, 2 = Graphique");
+            choix = Integer.parseInt(scanner.nextLine());
+        } while (choix != 1 && choix != 2);
+
+        if (choix == 1) {
+            JeuConsole jeu = new JeuConsole(monde);
+            jeu.lancer();
+        } else {
+            SwingUtilities.invokeLater(() -> {
+                new FenetreSimulationSwing(monde).setVisible(true);
+            });
+        }
     }
 }

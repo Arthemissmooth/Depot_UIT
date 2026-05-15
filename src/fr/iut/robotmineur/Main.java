@@ -12,53 +12,47 @@ public class Main {
         monde.ajouterEau(new Position(6, 6));
         monde.ajouterEau(new Position(8, 3));
 
-        Mine mineOr =
-                new Mine(
-                        1,
-                        new Position(2, 2),
-                        TypeMinerai.OR,
-                        80,
-                        80
-                );
+        Mine mineOr = new Mine(
+                1,
+                new Position(2, 2),
+                TypeMinerai.OR,
+                80,
+                80
+        );
 
-        Mine mineNickel =
-                new Mine(
-                        2,
-                        new Position(6, 5),
-                        TypeMinerai.NICKEL,
-                        70,
-                        70
-                );
+        Mine mineNickel = new Mine(
+                2,
+                new Position(6, 5),
+                TypeMinerai.NICKEL,
+                70,
+                70
+        );
 
-        Entrepot entrepotOr =
-                new Entrepot(
-                        1,
-                        new Position(0, 0),
-                        TypeMinerai.OR
-                );
+        Entrepot entrepotOr = new Entrepot(
+                1,
+                new Position(0, 0),
+                TypeMinerai.OR
+        );
 
-        Entrepot entrepotNickel =
-                new Entrepot(
-                        2,
-                        new Position(9, 9),
-                        TypeMinerai.NICKEL
-                );
+        Entrepot entrepotNickel = new Entrepot(
+                2,
+                new Position(9, 9),
+                TypeMinerai.NICKEL
+        );
 
-        Robot robotOr =
-                new RobotOr(
-                        1,
-                        new Position(1, 1),
-                        5,
-                        2
-                );
+        Robot robotOr = new RobotOr(
+                1,
+                new Position(1, 1),
+                5,
+                2
+        );
 
-        Robot robotNickel =
-                new RobotNickel(
-                        2,
-                        new Position(4, 4),
-                        6,
-                        3
-                );
+        Robot robotNickel = new RobotNickel(
+                2,
+                new Position(4, 4),
+                6,
+                3
+        );
 
         monde.ajouterMine(mineOr);
         monde.ajouterMine(mineNickel);
@@ -69,17 +63,7 @@ public class Main {
         monde.ajouterRobot(robotOr);
         monde.ajouterRobot(robotNickel);
 
-        AffichageConsole affichage =
-                new AffichageConsole();
-
-        for (int i = 0; i < 10; i++) {
-
-            JeuConsole jeu = new JeuConsole(monde);
-            jeu.lancer();
-
-
-
-            monde.tourSuivant();
-        }
+        JeuConsole jeu = new JeuConsole(monde);
+        jeu.lancer();
     }
 }

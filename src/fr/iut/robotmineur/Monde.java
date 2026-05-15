@@ -62,6 +62,7 @@ public class Monde {
     }
 
     public boolean deplacerRobot(Robot robot, Direction direction) {
+
         Position anciennePosition = robot.getPosition();
         Position nouvellePosition = anciennePosition.deplacer(direction);
 
@@ -69,15 +70,18 @@ public class Monde {
             return false;
         }
 
-        Secteur secteurDestination = getSecteur(nouvellePosition);
+        Secteur ancienSecteur = getSecteur(anciennePosition);
+        Secteur nouveauSecteur = getSecteur(nouvellePosition);
 
-        if (!secteurDestination.estLibre()) {
+        if (!nouveauSecteur.estLibre()) {
             return false;
         }
 
-        getSecteur(anciennePosition).retirerRobot();
+        ancienSecteur.retirerRobot();
+
         robot.setPosition(nouvellePosition);
-        secteurDestination.placerRobot(robot);
+
+        nouveauSecteur.placerRobot(robot);
 
         return true;
     }

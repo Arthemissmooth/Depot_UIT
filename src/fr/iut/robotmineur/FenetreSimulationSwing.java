@@ -41,11 +41,13 @@ public class FenetreSimulationSwing extends JFrame {
     private JComboBox<String>    comboActions;
     private JComboBox<Direction> comboDirections;
 
+// Statu Robot
 
+    private Robot robotActif;
 
     public FenetreSimulationSwing(Monde monde) {
         this.monde = monde;
-        setTitle("MINER-BOT  ///  Simulation de robots mineurs");
+        setTitle("Simulateur de robots mineurs");
         setSize(1380, 900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -89,7 +91,7 @@ public class FenetreSimulationSwing extends JFrame {
             }
         };
         JLabel title    = new JLabel("MINER-BOT");   title.setFont(FONT_TITLE); title.setForeground(TEXT_PRIMARY);
-        JLabel subtitle = new JLabel("// SYSTÈME DE SUPERVISION"); subtitle.setFont(FONT_LABEL); subtitle.setForeground(TEXT_MUTED);
+        JLabel subtitle = new JLabel(" @ SIMULATEUR DE ROBOT MINER"); subtitle.setFont(FONT_LABEL); subtitle.setForeground(TEXT_MUTED);
         left.add(dot); left.add(title); left.add(subtitle);
 
         labelTour = new JLabel();
@@ -97,14 +99,6 @@ public class FenetreSimulationSwing extends JFrame {
         labelTour.setForeground(ACCENT);
         labelTour.setBorder(new CompoundBorder(new LineBorder(ACCENT, 1), new EmptyBorder(6, 16, 6, 16)));
 
-        JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
-        right.setOpaque(false);
-        right.add(buildStatusDot("RÉSEAU",   ACCENT3));
-        right.add(buildStatusDot("CAPTEURS", ACCENT));
-        right.add(labelTour);
-
-        header.add(left,  BorderLayout.WEST);
-        header.add(right, BorderLayout.EAST);
         return header;
     }
 
@@ -308,6 +302,8 @@ public class FenetreSimulationSwing extends JFrame {
     private JPanel creerCase(Secteur s, int row, int col) {
 
         CasePanel panel = new CasePanel(s.estEau() ? AssetManager.EAU : AssetManager.TERRAIN);
+        boolean actif = (s.getRobot() != null && s.getRobot().equals(robotActif));
+        panel.setActif(actif);
         panel.setLayout(new BorderLayout());
 
         //  BARRE DU HAUT : coordonnée à gauche + label type à droite ══
@@ -373,8 +369,14 @@ public class FenetreSimulationSwing extends JFrame {
         private final Image img;
         private boolean hovered = false;
 
-        public CasePanel(ImageIcon icon) { this.img = icon.getImage(); setOpaque(false); }
+        public CasePanel(ImageIcon icon) { this.img = icon.getImage(); setOpaque(false);
+        }
         public void setHovered(boolean h) { this.hovered = h; }
+        private boolean actif = false;
+
+        public void setActif(boolean actif) {
+            this.actif = actif;
+        }
 
         @Override protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -383,6 +385,14 @@ public class FenetreSimulationSwing extends JFrame {
             if (hovered) {
                 g2.setColor(new Color(56, 189, 248, 40)); g2.fillRect(0, 0, getWidth(), getHeight());
                 g2.setColor(ACCENT); g2.setStroke(new BasicStroke(1.5f));
+                g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+            }
+            if (actif) {
+                g2.setColor(new Color(250, 204, 21, 70));
+                g2.fillRect(0, 0, getWidth(), getHeight());
+
+                g2.setColor(new Color(250, 204, 21));
+                g2.setStroke(new BasicStroke(2f));
                 g2.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
             }
             g2.dispose();
@@ -651,14 +661,17 @@ public class FenetreSimulationSwing extends JFrame {
         zoneInfos.add(Box.createVerticalStrut(6));
     }
 
-    // ═════════════════════════════════════════════════════════════════════════
+
     // LOGIQUE
-    // ═════════════════════════════════════════════════════════════════════════
+
 
     private void executerAction() {
         Robot r = (Robot) comboRobots.getSelectedItem();
         if (r == null) return;
         String action = (String) comboActions.getSelectedItem();
+
+
+        robotActif = r;
 
         if ("AVANCER".equals(action)) {
             monde.deplacerRobot(r, (Direction) comboDirections.getSelectedItem());
@@ -679,9 +692,8 @@ public class FenetreSimulationSwing extends JFrame {
 
     private void setStatus(String msg) { if (labelStatus != null) labelStatus.setText("› " + msg); }
 
-    // ═════════════════════════════════════════════════════════════════════════
+
     // UTILS & REFRESH
-    // ═════════════════════════════════════════════════════════════════════════
 
     private ImageIcon resize(ImageIcon icon, int w, int h) {
         return new ImageIcon(icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH));

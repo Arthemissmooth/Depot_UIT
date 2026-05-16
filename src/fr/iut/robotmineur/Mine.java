@@ -15,7 +15,7 @@ public class Mine {
         this.position = position;
         this.typeMinerai = typeMinerai;
         this.quantiteActuelle = quantiteActuelle;
-        this.quantiteInitiale = quantiteInitiale;
+        this.quantiteInitiale = quantiteInitiale ;
     }
 
     public int getId() {
@@ -54,6 +54,11 @@ public class Mine {
 
         return reste;
     }
+
+    public int getMineraiRestant() {
+        return quantiteActuelle;
+    }
+
 
     @Override
     public String toString() {

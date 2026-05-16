@@ -43,6 +43,8 @@ public abstract class Robot {
         return capaciteExtraction;
     }
 
+
+
     public abstract TypeMinerai getTypeMinerai();
 
     public boolean estPlein() {

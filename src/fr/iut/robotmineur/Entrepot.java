@@ -40,6 +40,10 @@ public class Entrepot {
         stock = stock + quantite;
     }
 
+    public void Capacite(int quantite) {
+        stock = stock - quantite;
+    }
+
 
     @Override
     public String toString() {

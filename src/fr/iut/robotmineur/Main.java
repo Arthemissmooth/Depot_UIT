@@ -37,7 +37,7 @@ public class Main {
 
             int type;
             do {
-                System.out.println("Type (1 = OR, 2 = NICKEL)");
+                System.out.println("Type de la mine (1 = OR, 2 = NICKEL)");
                 type = lireEntier(scanner);
 
                 if (type != 1 && type != 2) {
@@ -89,20 +89,50 @@ public class Main {
             monde.ajouterEau(positionEau);
         }
 
-        Entrepot entrepotOr = new Entrepot(
-                1,
-                new Position(0, 0),
-                TypeMinerai.OR
-        );
+        // -----------------------------
+        // ENTREPOTS : 1 OR + 1 NICKEL
+        // -----------------------------
+        boolean entrepotOrCree = false;
+        boolean entrepotNickelCree = false;
 
-        Entrepot entrepotNickel = new Entrepot(
-                2,
-                new Position(9, 9),
-                TypeMinerai.NICKEL
-        );
+        for (int i = 1; i <= 2; i++) {
 
-        monde.ajouterEntrepot(entrepotOr);
-        monde.ajouterEntrepot(entrepotNickel);
+            Position positionEntrepot;
+            do {
+                positionEntrepot = lirePosition(scanner, "Position de l'entrepôt " + i + " :");
+
+                if (!monde.positionDisponiblePourMineOuEntrepot(positionEntrepot)) {
+                    System.out.println("Position déjà occupée ou invalide.");
+                }
+
+            } while (!monde.positionDisponiblePourMineOuEntrepot(positionEntrepot));
+
+            TypeMinerai typeEntrepot;
+
+            while (true) {
+                System.out.println("Type de l'entrepôt " + i + " (1 = OR, 2 = NICKEL)");
+                int type = lireEntier(scanner);
+
+                if (type == 1 && !entrepotOrCree) {
+                    typeEntrepot = TypeMinerai.OR;
+                    entrepotOrCree = true;
+                    break;
+                } else if (type == 2 && !entrepotNickelCree) {
+                    typeEntrepot = TypeMinerai.NICKEL;
+                    entrepotNickelCree = true;
+                    break;
+                } else if (type == 1) {
+                    System.out.println("L'entrepôt OR existe déjà. Choisissez NICKEL.");
+                } else if (type == 2) {
+                    System.out.println("L'entrepôt NICKEL existe déjà. Choisissez OR.");
+                } else {
+                    System.out.println("Type invalide.");
+                }
+            }
+
+            Entrepot entrepot = new Entrepot(i, positionEntrepot, typeEntrepot);
+            monde.ajouterEntrepot(entrepot);
+        }
 
         int nbRobots;
         do {
@@ -130,7 +160,7 @@ public class Main {
 
             int type;
             do {
-                System.out.println("Type (1 = OR, 2 = NICKEL)");
+                System.out.println("Type du robot (1 = OR, 2 = NICKEL)");
                 type = lireEntier(scanner);
 
                 if (type != 1 && type != 2) {

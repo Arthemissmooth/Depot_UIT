@@ -1,7 +1,7 @@
 package fr.iut.robotmineur;
 
-
 public class Secteur {
+
     private Position position;
     private TypeSecteur typeSecteur;
     private Mine mine;
@@ -16,7 +16,6 @@ public class Secteur {
         this.robot = null;
     }
 
-
     public Position getPosition() {
         return position;
     }
@@ -25,11 +24,9 @@ public class Secteur {
         return typeSecteur;
     }
 
-
     public Mine getMine() {
         return mine;
     }
-
 
     public Entrepot getEntrepot() {
         return entrepot;
@@ -39,36 +36,29 @@ public class Secteur {
         return robot;
     }
 
-
     public boolean estEau() {
         return typeSecteur == TypeSecteur.EAU;
     }
 
-
-    public boolean estLibre() {
+    public boolean estLibrePourRobot() {
         return !estEau() && robot == null;
     }
 
-
-    public boolean contientMine() {
-        return mine != null;
+    public boolean estVideTotalement() {
+        return !estEau() && mine == null && entrepot == null && robot == null;
     }
 
-
-    public boolean contientEntrepot() {
-        return entrepot != null;
+    public boolean estLibrePourMineOuEntrepot() {
+        return !estEau() && mine == null && entrepot == null;
     }
-
 
     public void placerMine(Mine mine) {
         this.mine = mine;
     }
 
-
     public void placerEntrepot(Entrepot entrepot) {
         this.entrepot = entrepot;
     }
-
 
     public void placerRobot(Robot robot) {
         this.robot = robot;
@@ -78,16 +68,3 @@ public class Secteur {
         this.robot = null;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

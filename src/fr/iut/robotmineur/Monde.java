@@ -33,7 +33,7 @@ public class Monde {
     public Secteur getSecteur(Position position) {
         return secteurs[position.getLigne()][position.getColonne()];
     }
-/* la classe a été créé par Hadj*/
+
     public boolean positionValide(Position position) {
         return position.getLigne() >= 0
                 && position.getLigne() < 10
@@ -41,47 +41,68 @@ public class Monde {
                 && position.getColonne() < 10;
     }
 
-    public void ajouterRobot(Robot robot) {
-        robots.add(robot);
-        getSecteur(robot.getPosition()).placerRobot(robot);
+    public boolean positionDisponiblePourEau(Position position) {
+        return positionValide(position)
+                && getSecteur(position).estVideTotalement();
+    }
+
+    public boolean positionDisponiblePourMineOuEntrepot(Position position) {
+        return positionValide(position)
+                && getSecteur(position).estLibrePourMineOuEntrepot();
+    }
+
+    public boolean positionDisponiblePourRobot(Position position) {
+        return positionValide(position)
+                && getSecteur(position).estLibrePourRobot();
     }
 
     public void ajouterEau(Position position) {
+        if (!positionDisponiblePourEau(position)) {
+            throw new IllegalArgumentException("Position invalide ou déjà occupée pour l'eau.");
+        }
+
         secteurs[position.getLigne()][position.getColonne()] =
                 new Secteur(position, TypeSecteur.EAU);
     }
 
     public void ajouterMine(Mine mine) {
+        if (!positionDisponiblePourMineOuEntrepot(mine.getPosition())) {
+            throw new IllegalArgumentException("Position invalide ou déjà occupée pour la mine.");
+        }
+
         mines.add(mine);
         getSecteur(mine.getPosition()).placerMine(mine);
     }
 
     public void ajouterEntrepot(Entrepot entrepot) {
+        if (!positionDisponiblePourMineOuEntrepot(entrepot.getPosition())) {
+            throw new IllegalArgumentException("Position invalide ou déjà occupée pour l'entrepôt.");
+        }
+
         entrepots.add(entrepot);
         getSecteur(entrepot.getPosition()).placerEntrepot(entrepot);
     }
 
-    public boolean deplacerRobot(Robot robot, Direction direction) {
+    public void ajouterRobot(Robot robot) {
+        if (!positionDisponiblePourRobot(robot.getPosition())) {
+            throw new IllegalArgumentException("Position invalide, eau ou robot déjà présent.");
+        }
 
+        robots.add(robot);
+        getSecteur(robot.getPosition()).placerRobot(robot);
+    }
+
+    public boolean deplacerRobot(Robot robot, Direction direction) {
         Position anciennePosition = robot.getPosition();
         Position nouvellePosition = anciennePosition.deplacer(direction);
 
-        if (!positionValide(nouvellePosition)) {
+        if (!positionDisponiblePourRobot(nouvellePosition)) {
             return false;
         }
 
-        Secteur ancienSecteur = getSecteur(anciennePosition);
-        Secteur nouveauSecteur = getSecteur(nouvellePosition);
-
-        if (!nouveauSecteur.estLibre()) {
-            return false;
-        }
-
-        ancienSecteur.retirerRobot();
-
+        getSecteur(anciennePosition).retirerRobot();
         robot.setPosition(nouvellePosition);
-
-        nouveauSecteur.placerRobot(robot);
+        getSecteur(nouvellePosition).placerRobot(robot);
 
         return true;
     }
@@ -105,6 +126,4 @@ public class Monde {
     public int getTourActuel() {
         return tourActuel;
     }
-
-
 }

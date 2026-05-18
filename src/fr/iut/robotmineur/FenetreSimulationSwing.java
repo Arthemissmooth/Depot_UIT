@@ -10,7 +10,7 @@ import java.awt.event.*;
 
 public class FenetreSimulationSwing extends JFrame {
 
-    // Palette
+
     private static final Color BG_DARK      = new Color(10,  14,  26);
     private static final Color BG_PANEL     = new Color(16,  22,  42);
     private static final Color BG_CARD      = new Color(22,  30,  56);
@@ -22,14 +22,14 @@ public class FenetreSimulationSwing extends JFrame {
     private static final Color TEXT_MUTED   = new Color(100, 116, 139);
     private static final Color BORDER_COL   = new Color(30,  41,  59);
 
-    // Fonts
+
     private static final Font FONT_TITLE = new Font("Courier New", Font.BOLD,  22);
     private static final Font FONT_H2    = new Font("Courier New", Font.BOLD,  13);
     private static final Font FONT_MONO  = new Font("Courier New", Font.PLAIN, 12);
     private static final Font FONT_LABEL = new Font("Courier New", Font.PLAIN, 11);
     private static final Font FONT_BADGE = new Font("Courier New", Font.BOLD,  11);
 
-    // State
+
     private final Monde monde;
 
     private JPanel  panneauGrille;
@@ -41,7 +41,7 @@ public class FenetreSimulationSwing extends JFrame {
     private JComboBox<String>    comboActions;
     private JComboBox<Direction> comboDirections;
 
-// Statu Robot
+
 
     private Robot robotActif;
 
@@ -59,7 +59,7 @@ public class FenetreSimulationSwing extends JFrame {
         rafraichir();
     }
 
-    // HEADER
+
 
 
     private JPanel buildHeader() {
@@ -110,7 +110,7 @@ public class FenetreSimulationSwing extends JFrame {
     }
 
 
-    // CENTER
+
 
 
     private JPanel buildCenter() {
@@ -160,7 +160,7 @@ public class FenetreSimulationSwing extends JFrame {
     }
 
 
-    // FOOTER
+
 
 
     private JPanel buildFooter() {
@@ -204,7 +204,7 @@ public class FenetreSimulationSwing extends JFrame {
         return footer;
     }
 
-    @SuppressWarnings("unchecked")
+
     private <T> JComboBox<T> buildStyledCombo(T... items) { JComboBox<T> cb = new JComboBox<>(items); styleCombo(cb); return cb; }
     private <T> JComboBox<T> buildStyledCombo()           { JComboBox<T> cb = new JComboBox<>();       styleCombo(cb); return cb; }
 
@@ -253,7 +253,7 @@ public class FenetreSimulationSwing extends JFrame {
     }
 
 
-    // CARD BUILDER
+
 
 
     private JPanel buildCard(String title) {
@@ -287,7 +287,7 @@ public class FenetreSimulationSwing extends JFrame {
     }
 
 
-    // GRILLE
+
 
 
     private void afficherGrille() {
@@ -306,8 +306,7 @@ public class FenetreSimulationSwing extends JFrame {
         panel.setActif(actif);
         panel.setLayout(new BorderLayout());
 
-        //  BARRE DU HAUT : coordonnée à gauche + label type à droite ══
-        // FIX 1 : haut est créé ET ajouté dans topBar, lui-même ajouté au panel
+
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.setOpaque(false);
 
@@ -319,13 +318,13 @@ public class FenetreSimulationSwing extends JFrame {
         haut.setFont(new Font("Courier New", Font.BOLD, 7));
 
         topBar.add(coord, BorderLayout.WEST);
-        topBar.add(haut,  BorderLayout.EAST);   // ← haut est maintenant dans le layout
+        topBar.add(haut,  BorderLayout.EAST);
 
-        // Icône centrale : mine ou entrepôt ══
+
         JLabel center = new JLabel();
         center.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Icône bas : robot ══
+
         JLabel bottom = new JLabel();
         bottom.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -400,7 +399,6 @@ public class FenetreSimulationSwing extends JFrame {
     }
 
 
-    // INFOS PANEL
 
 
     private void afficherInfos() {
@@ -415,7 +413,7 @@ public class FenetreSimulationSwing extends JFrame {
 
         zoneInfos.add(Box.createVerticalStrut(10));
 
-        // FIX 2 : on itère sur TOUTES les mines (pas de coupure par setMaximumSize)
+
         addSectionHeader("MINES", monde.getMines().size());
         for (Mine m : monde.getMines()) zoneInfos.add(buildMineCard(m));
 
@@ -429,7 +427,7 @@ public class FenetreSimulationSwing extends JFrame {
         zoneInfos.repaint();
     }
 
-    // Score globa
+
 
     private JPanel buildGlobalScorePanel(int scoreTotal) {
         JPanel card = new JPanel(new BorderLayout(10, 0)) {
@@ -458,7 +456,7 @@ public class FenetreSimulationSwing extends JFrame {
         return wrapCard(card);
     }
 
-    //  Carte Robot
+
     private JPanel buildRobotCard(Robot r) {
         boolean   isOr    = r.getTypeMinerai() == TypeMinerai.OR;
         ImageIcon terrain = resize(AssetManager.TERRAIN, 46, 46);
@@ -469,7 +467,7 @@ public class FenetreSimulationSwing extends JFrame {
         int capacite = r.getCapaciteStockage();
 
         JPanel card = buildBaseCard(accent);
-        // FIX 2 : pas de setMaximumSize → toutes les cartes s'affichent
+
 
         JPanel content = new JPanel();
         content.setOpaque(false);
@@ -488,7 +486,7 @@ public class FenetreSimulationSwing extends JFrame {
         return wrapCard(card);
     }
 
-    // Carte Mine
+
     private JPanel buildMineCard(Mine m) {
         boolean   isOr    = m.getTypeMinerai() == TypeMinerai.OR;
         ImageIcon terrain = resize(AssetManager.TERRAIN, 46, 46);
@@ -518,7 +516,7 @@ public class FenetreSimulationSwing extends JFrame {
         return wrapCard(card);
     }
 
-    //  Carte Entrepôt
+
 
     private JPanel buildEntrepotCard(Entrepot e) {
         ImageIcon terrain = resize(AssetManager.TERRAIN,  46, 46);
@@ -547,7 +545,7 @@ public class FenetreSimulationSwing extends JFrame {
         return wrapCard(card);
     }
 
-    //  Composants réutilisables
+
 
 
     private JPanel buildTerrainIcon(ImageIcon terrain, ImageIcon overlay) {
@@ -662,7 +660,7 @@ public class FenetreSimulationSwing extends JFrame {
     }
 
 
-    // LOGIQUE
+
 
 
     private void executerAction() {
@@ -693,7 +691,7 @@ public class FenetreSimulationSwing extends JFrame {
     private void setStatus(String msg) { if (labelStatus != null) labelStatus.setText("› " + msg); }
 
 
-    // UTILS & REFRESH
+
 
     private ImageIcon resize(ImageIcon icon, int w, int h) {
         return new ImageIcon(icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH));

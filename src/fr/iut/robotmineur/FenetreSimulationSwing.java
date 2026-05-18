@@ -186,8 +186,8 @@ public class FenetreSimulationSwing extends JFrame {
         cmdPanel.add(buildFieldGroup("ACTION",    comboActions    = buildStyledCombo("AVANCER","RECOLTER","DEPOSER","ATTENDRE")));
         cmdPanel.add(buildFieldGroup("DIRECTION", comboDirections = buildStyledCombo(Direction.values())));
 
-        JButton btnValider = buildActionButton("► EXÉCUTER",     ACCENT,  new Color(0, 60, 100));
-        JButton btnTour    = buildActionButton("↻ TOUR SUIVANT", ACCENT2, new Color(80, 60, 0));
+        JButton btnValider = buildActionButton(" EXÉCUTER",     ACCENT,  new Color(0, 60, 100));
+        JButton btnTour    = buildActionButton("TOUR SUIVANT", ACCENT2, new Color(80, 60, 0));
         btnValider.addActionListener(e -> executerAction());
         btnTour.addActionListener(e -> { monde.tourSuivant(); rafraichir(); });
 
@@ -306,8 +306,7 @@ public class FenetreSimulationSwing extends JFrame {
         panel.setActif(actif);
         panel.setLayout(new BorderLayout());
 
-        //  BARRE DU HAUT : coordonnée à gauche + label type à droite ══
-        // FIX 1 : haut est créé ET ajouté dans topBar, lui-même ajouté au panel
+
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.setOpaque(false);
 
@@ -319,9 +318,8 @@ public class FenetreSimulationSwing extends JFrame {
         haut.setFont(new Font("Courier New", Font.BOLD, 7));
 
         topBar.add(coord, BorderLayout.WEST);
-        topBar.add(haut,  BorderLayout.EAST);   // ← haut est maintenant dans le layout
+        topBar.add(haut,  BorderLayout.EAST);
 
-        // Icône centrale : mine ou entrepôt ══
         JLabel center = new JLabel();
         center.setHorizontalAlignment(SwingConstants.CENTER);
 
@@ -693,14 +691,12 @@ public class FenetreSimulationSwing extends JFrame {
     private void setStatus(String msg) { if (labelStatus != null) labelStatus.setText("› " + msg); }
 
 
-    // UTILS & REFRESH
-
     private ImageIcon resize(ImageIcon icon, int w, int h) {
         return new ImageIcon(icon.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH));
     }
 
     private void rafraichir() {
-        labelTour.setText("◈  TOUR " + monde.getTourActuel());
+        labelTour.setText(" TOUR " + monde.getTourActuel());
         afficherGrille();
         afficherInfos();
     }

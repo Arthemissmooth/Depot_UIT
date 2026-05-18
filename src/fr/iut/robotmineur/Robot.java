@@ -3,6 +3,7 @@ package fr.iut.robotmineur;
 public abstract class Robot {
 
     protected int id;
+    protected String nom;
     protected Position position;
 
     protected int stockActuel;
@@ -10,21 +11,25 @@ public abstract class Robot {
     protected int capaciteExtraction;
 
     public Robot(int id,
+                 String nom,
                  Position position,
                  int capaciteStockage,
                  int capaciteExtraction) {
 
         this.id = id;
+        this.nom = nom;
         this.position = position;
-
         this.capaciteStockage = capaciteStockage;
         this.capaciteExtraction = capaciteExtraction;
-
         this.stockActuel = 0;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getNom() {
+        return nom;
     }
 
     public Position getPosition() {
@@ -42,8 +47,6 @@ public abstract class Robot {
     public int getCapaciteExtraction() {
         return capaciteExtraction;
     }
-
-
 
     public abstract TypeMinerai getTypeMinerai();
 
@@ -73,14 +76,9 @@ public abstract class Robot {
             return false;
         }
 
-        int placeDisponible =
-                capaciteStockage - stockActuel;
-
-        int quantiteAExtraire =
-                Math.min(capaciteExtraction, placeDisponible);
-
-        int quantiteRecuperee =
-                mine.extraire(quantiteAExtraire);
+        int placeDisponible = capaciteStockage - stockActuel;
+        int quantiteAExtraire = Math.min(capaciteExtraction, placeDisponible);
+        int quantiteRecuperee = mine.extraire(quantiteAExtraire);
 
         stockActuel += quantiteRecuperee;
 
@@ -98,7 +96,6 @@ public abstract class Robot {
         }
 
         entrepot.deposer(stockActuel);
-
         stockActuel = 0;
 
         return true;
@@ -110,8 +107,8 @@ public abstract class Robot {
 
     @Override
     public String toString() {
-
         return "R" + id +
+                " (" + nom + ")" +
                 " " + position +
                 " " + getTypeMinerai() +
                 " " + stockActuel +

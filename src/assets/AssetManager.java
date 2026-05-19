@@ -8,7 +8,7 @@ public class AssetManager {
     public static final ImageIcon ROBOTNICKEL = load("/assets/RobotNickel.png");
     public static final ImageIcon ROBOTOR = load("/assets/RobotOr.png");
 
-    public static final ImageIcon MINE = load("/assets/mine.png");
+
     public static final ImageIcon MINEOR = load("/assets/MineOr.png");
     public static final ImageIcon MINENICKEL = load("/assets/MineNickel.png");
 
@@ -16,6 +16,9 @@ public class AssetManager {
 
     public static final ImageIcon EAU = load("/assets/water.png");
     public static final ImageIcon TERRAIN = load("/assets/grass.png");
+    public static final ImageIcon BACKGROUND = load("/assets/background.png");
+    public static final ImageIcon BARRIERE_H = load("/assets/barriere_h.png");
+    public static final ImageIcon BARRIERE_V = load("/assets/barriere_v.png");
 
     private static ImageIcon load(String path) {
 

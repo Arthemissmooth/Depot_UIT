@@ -2,6 +2,7 @@ package fr.iut.robotmineur;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Monde {
 
@@ -28,6 +29,112 @@ public class Monde {
                 secteurs[ligne][colonne] = new Secteur(position, TypeSecteur.TERRAIN);
             }
         }
+    }
+
+    public void initialiserAleatoirement(String nomRobotOr, String nomRobotNickel) {
+        Random random = new Random();
+
+        int nbEau = random.nextInt(11);
+
+        for (int i = 0; i < nbEau; i++) {
+            ajouterEau(positionLibrePourEau(random));
+        }
+
+        int idMine = 1;
+
+        int nbMinesOr = 1 + random.nextInt(2);
+        int nbMinesNickel = 1 + random.nextInt(2);
+
+        for (int i = 0; i < nbMinesOr; i++) {
+            int quantite = 50 + random.nextInt(51);
+
+            Mine mine = new Mine(
+                    idMine,
+                    positionLibrePourMineOuEntrepot(random),
+                    TypeMinerai.OR,
+                    quantite,
+                    quantite
+            );
+
+            ajouterMine(mine);
+            idMine++;
+        }
+
+        for (int i = 0; i < nbMinesNickel; i++) {
+            int quantite = 50 + random.nextInt(51);
+
+            Mine mine = new Mine(
+                    idMine,
+                    positionLibrePourMineOuEntrepot(random),
+                    TypeMinerai.NICKEL,
+                    quantite,
+                    quantite
+            );
+
+            ajouterMine(mine);
+            idMine++;
+        }
+
+        ajouterEntrepot(new Entrepot(
+                1,
+                positionLibrePourMineOuEntrepot(random),
+                TypeMinerai.OR
+        ));
+
+        ajouterEntrepot(new Entrepot(
+                2,
+                positionLibrePourMineOuEntrepot(random),
+                TypeMinerai.NICKEL
+        ));
+
+        Robot robotOr = new RobotOr(
+                1,
+                nomRobotOr,
+                positionLibrePourRobot(random),
+                5 + random.nextInt(5),
+                1 + random.nextInt(3)
+        );
+
+        Robot robotNickel = new RobotNickel(
+                2,
+                nomRobotNickel,
+                positionLibrePourRobot(random),
+                5 + random.nextInt(5),
+                1 + random.nextInt(3)
+        );
+
+        ajouterRobot(robotOr);
+        ajouterRobot(robotNickel);
+    }
+
+    private Position positionLibrePourEau(Random random) {
+        Position position;
+
+        do {
+            position = new Position(random.nextInt(10), random.nextInt(10));
+        } while (!positionDisponiblePourEau(position));
+
+        return position;
+    }
+
+    private Position positionLibrePourMineOuEntrepot(Random random) {
+        Position position;
+
+        do {
+            position = new Position(random.nextInt(10), random.nextInt(10));
+        } while (!positionDisponiblePourMineOuEntrepot(position));
+
+        return position;
+    }
+
+    private Position positionLibrePourRobot(Random random) {
+        Position position;
+
+        do {
+            position = new Position(random.nextInt(10), random.nextInt(10));
+        } while (!positionDisponiblePourRobot(position));
+
+        return position;
     }
 
     public Secteur getSecteur(Position position) {

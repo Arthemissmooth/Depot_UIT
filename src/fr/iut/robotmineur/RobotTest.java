@@ -1,7 +1,6 @@
-package fr.iut.robotmineur.Test;
+package fr.iut.robotmineur;
 
 
-import fr.iut.robotmineur.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

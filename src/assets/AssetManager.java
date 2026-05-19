@@ -17,8 +17,6 @@ public class AssetManager {
     public static final ImageIcon EAU = load("/assets/water.png");
     public static final ImageIcon TERRAIN = load("/assets/grass.png");
     public static final ImageIcon BACKGROUND = load("/assets/background.png");
-    public static final ImageIcon BARRIERE_H = load("/assets/barriere_h.png");
-    public static final ImageIcon BARRIERE_V = load("/assets/barriere_v.png");
 
     private static ImageIcon load(String path) {
 

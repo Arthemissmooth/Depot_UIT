@@ -45,6 +45,7 @@ public class Secteur {
     }
 
     public boolean estVideTotalement() {
+
         return !estEau() && mine == null && entrepot == null && robot == null;
     }
 

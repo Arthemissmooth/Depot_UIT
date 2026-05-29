@@ -39,7 +39,7 @@ public class FenetreSimulationSwing extends JFrame {
 
     private Robot robotActif;
     private Timer timerSimulation;
-    private int delaiEntrerTours = 1500 ;
+    private int delaiEntrerTours = 1000 ;
     private SimulationAutomatique simulationAutomatique;
 
     public FenetreSimulationSwing(Monde monde) {
@@ -48,6 +48,13 @@ public class FenetreSimulationSwing extends JFrame {
         this.simulationAutomatique = new SimulationAutomatique(monde);
 
         this.timerSimulation = new Timer(delaiEntrerTours, e -> {
+
+            if (simulationAutomatique.estTerminee()) {
+                timerSimulation.stop();
+                setStatus("Simulation terminée : toutes les mines sont vides.");
+                return;
+            }
+
             simulationAutomatique.jouerTour();
             rafraichir();
         });

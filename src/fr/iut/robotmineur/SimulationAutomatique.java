@@ -4,9 +4,9 @@ import java.util.List;
 
 public class SimulationAutomatique {
 
-    private Monde monde;
-    private PlanificateurChemin planificateurChemin;
-    private StrategieRobot strategieRobot;
+    private final Monde monde;
+    private final PlanificateurChemin planificateurChemin;
+    private final StrategieRobot strategieRobot;
 
     public SimulationAutomatique(Monde monde) {
         this.monde = monde;
@@ -25,49 +25,111 @@ public class SimulationAutomatique {
 
     private void jouerRobot(Robot robot) {
 
-        Secteur secteurActuel = monde.getSecteur(robot.getPosition());
+        Secteur secteurActuel =
+                monde.getSecteur(robot.getPosition());
 
+        // Récolte automatique
         if (secteurActuel.getMine() != null) {
-            boolean recolte = robot.recolter(secteurActuel.getMine());
+
+            boolean recolte =
+                    robot.recolter(secteurActuel.getMine());
 
             if (recolte) {
+
+                System.out.println(
+                        "R" + robot.getId()
+                                + " récolte du minerai."
+                );
+
                 return;
             }
         }
 
+        // Dépôt automatique
         if (secteurActuel.getEntrepot() != null) {
-            boolean depot = robot.deposer(secteurActuel.getEntrepot());
+
+            boolean depot =
+                    robot.deposer(secteurActuel.getEntrepot());
 
             if (depot) {
+
+                System.out.println(
+                        "R" + robot.getId()
+                                + " dépose son minerai."
+                );
+
                 return;
             }
         }
 
-        Position objectif = strategieRobot.trouverObjectif(robot, monde);
+        // Recherche d'objectif
+        Position objectif =
+                strategieRobot.trouverObjectif(robot, monde);
 
         if (objectif == null) {
+
+            System.out.println(
+                    "R" + robot.getId()
+                            + " ne trouve aucun objectif."
+            );
+
             return;
         }
 
-        List<Position> chemin = planificateurChemin.calculerChemin(
-                monde,
-                robot.getPosition(),
-                objectif
-        );
+        // Calcul du chemin
+        List<Position> chemin =
+                planificateurChemin.calculerChemin(
+                        monde,
+                        robot.getPosition(),
+                        objectif
+                );
 
-        if (chemin.size() < 2) {
+        if (chemin == null || chemin.size() < 2) {
+
+            System.out.println(
+                    "R" + robot.getId()
+                            + " ne trouve aucun chemin."
+            );
+
             return;
         }
 
+        // Prochaine position
         Position prochainePosition = chemin.get(1);
-        Direction direction = trouverDirection(robot.getPosition(), prochainePosition);
+
+        Direction direction =
+                trouverDirection(
+                        robot.getPosition(),
+                        prochainePosition
+                );
 
         if (direction != null) {
-            monde.deplacerRobot(robot, direction);
+
+            boolean deplacement =
+                    monde.deplacerRobot(robot, direction);
+
+            if (deplacement) {
+
+                System.out.println(
+                        "R" + robot.getId()
+                                + " avance vers "
+                                + direction
+                );
+
+            } else {
+
+                System.out.println(
+                        "R" + robot.getId()
+                                + " est bloqué."
+                );
+            }
         }
     }
 
-    private Direction trouverDirection(Position depart, Position arrivee) {
+    private Direction trouverDirection(
+            Position depart,
+            Position arrivee
+    ) {
 
         if (arrivee.getLigne() == depart.getLigne() - 1) {
             return Direction.NORD;
@@ -86,5 +148,17 @@ public class SimulationAutomatique {
         }
 
         return null;
+    }
+
+    public boolean simulationTerminee() {
+
+        for (Mine mine : monde.getMines()) {
+
+            if (!mine.estVide()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

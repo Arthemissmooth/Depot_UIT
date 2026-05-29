@@ -4,19 +4,24 @@ public class StrategieRobot {
 
     public Position trouverObjectif(Robot robot, Monde monde) {
 
+        Mine mine = trouverMine(robot, monde);
+
         if (robot.estPlein()) {
-
             Entrepot entrepot = trouverEntrepot(robot, monde);
-
             if (entrepot != null) {
                 return entrepot.getPosition();
             }
         }
 
-        Mine mine = trouverMine(robot, monde);
-
         if (mine != null) {
             return mine.getPosition();
+        }
+
+        if (!robot.estVide()) {
+            Entrepot entrepot = trouverEntrepot(robot, monde);
+            if (entrepot != null) {
+                return entrepot.getPosition();
+            }
         }
 
         return null;
@@ -29,20 +34,15 @@ public class StrategieRobot {
 
         for (Mine mine : monde.getMines()) {
 
-
             if (mine.getTypeMinerai() != robot.getTypeMinerai()) {
                 continue;
             }
-
 
             if (mine.estVide()) {
                 continue;
             }
 
-            int distance = calculerDistance(
-                    robot.getPosition(),
-                    mine.getPosition()
-            );
+            int distance = calculerDistance(robot.getPosition(), mine.getPosition());
 
             if (distance < meilleureDistance) {
                 meilleureDistance = distance;
@@ -56,7 +56,6 @@ public class StrategieRobot {
     public Entrepot trouverEntrepot(Robot robot, Monde monde) {
 
         for (Entrepot entrepot : monde.getEntrepots()) {
-
             if (entrepot.getTypeMinerai() == robot.getTypeMinerai()) {
                 return entrepot;
             }
@@ -66,8 +65,9 @@ public class StrategieRobot {
     }
 
     private int calculerDistance(Position a, Position b) {
-
         return Math.abs(a.getLigne() - b.getLigne())
                 + Math.abs(a.getColonne() - b.getColonne());
     }
 }
+
+

@@ -38,9 +38,19 @@ public class FenetreSimulationSwing extends JFrame {
     private JComboBox<Direction> comboDirections;
 
     private Robot robotActif;
+    private Timer timerSimulation;
+    private int delaiEntrerTours = 1500 ;
+    private SimulationAutomatique simulationAutomatique;
 
     public FenetreSimulationSwing(Monde monde) {
         this.monde = monde;
+
+        this.simulationAutomatique = new SimulationAutomatique(monde);
+
+        this.timerSimulation = new Timer(delaiEntrerTours, e -> {
+            simulationAutomatique.jouerTour();
+            rafraichir();
+        });
 
         setTitle("robots mineurs Simulateur");
         setSize(1380, 900);
@@ -53,6 +63,7 @@ public class FenetreSimulationSwing extends JFrame {
         add(buildHeader(), BorderLayout.NORTH);
         add(buildCenter(), BorderLayout.CENTER);
         add(buildFooter(), BorderLayout.SOUTH);
+        timerSimulation.start();
 
         rafraichir();
     }

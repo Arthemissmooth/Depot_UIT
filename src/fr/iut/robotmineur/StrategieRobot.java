@@ -29,12 +29,12 @@ public class StrategieRobot {
 
         for (Mine mine : monde.getMines()) {
 
-            // On garde uniquement les mines du bon type
+
             if (mine.getTypeMinerai() != robot.getTypeMinerai()) {
                 continue;
             }
 
-            // On ignore les mines vides
+
             if (mine.estVide()) {
                 continue;
             }

@@ -79,13 +79,13 @@ public class PlanificateurChemin {
     }
 
     private List<Position> getVoisins(Position position) {
+
         List<Position> voisins = new ArrayList<>();
 
         voisins.add(position.deplacer(Direction.NORD));
         voisins.add(position.deplacer(Direction.SUD));
         voisins.add(position.deplacer(Direction.EST));
         voisins.add(position.deplacer(Direction.OUEST));
-
         return voisins;
     }
 
@@ -99,7 +99,6 @@ public class PlanificateurChemin {
         if (secteur.getRobot() != null && !memePosition(position, arrivee)) {
             return false;
         }
-
         return true;
     }
 
@@ -113,7 +112,6 @@ public class PlanificateurChemin {
                 return caseChemin;
             }
         }
-
         return null;
     }
 
@@ -131,7 +129,6 @@ public class PlanificateurChemin {
             chemin.add(0, courant.getPosition());
             courant = courant.getParent();
         }
-
         return chemin;
     }
 }

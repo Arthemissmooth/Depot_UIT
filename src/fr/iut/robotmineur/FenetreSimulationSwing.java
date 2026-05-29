@@ -42,7 +42,7 @@ public class FenetreSimulationSwing extends JFrame {
     public FenetreSimulationSwing(Monde monde) {
         this.monde = monde;
 
-        setTitle("Simulateur de robots mineurs");
+        setTitle("robots mineurs Simulateur");
         setSize(1380, 900);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -121,7 +121,11 @@ public class FenetreSimulationSwing extends JFrame {
 
         JPanel gridWrapper = new JPanel(new BorderLayout()) {
 
-            private final Image background = AssetManager.BACKGROUND.getImage();
+            private final Image background;
+
+            {
+                background = AssetManager.BACKGROUND.getImage();
+            }
 
             @Override
             protected void paintComponent(Graphics g) {

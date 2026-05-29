@@ -76,7 +76,7 @@ public class SimulationAutomatique {
             return;
         }
 
-        // Calcul du chemin
+
         List<Position> chemin =
                 planificateurChemin.calculerChemin(
                         monde,
@@ -94,7 +94,7 @@ public class SimulationAutomatique {
             return;
         }
 
-        // Prochaine position
+
         Position prochainePosition = chemin.get(1);
 
         Direction direction =
